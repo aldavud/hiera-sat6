@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+#
+# Push hiera master branch to Satellite server
+#
+# hooks.env.satellite
+#   The hostname of the Satellite server
+#
+# hooks.env.hierapath
+#   The path to hiera on the Satellite server
+#
+
+# Autoflush stdout
+$stdout.sync = true
+
+satellite_hostname = `/usr/bin/git config hooks.env.satellite`.chomp!
+if $?.exitstatus != 0
+  puts 'hooks.env.satellite is not set.'
+  exit 1
+end
+
+hiera_path = `/usr/bin/git config hooks.env.hierapath`.chomp!
+if $?.exitstatus != 0
+  puts 'hooks.env.hierapath is not set.'
+  exit 1
+end
+
+$stdin.each_line do |line|
+  oldrev, newrev, refname = line.split(' ')
+  if refname == 'refs/heads/master'
+    puts "Pushing new hiera config to Satellite #{satellite_hostname}"
+    `/usr/bin/ssh #{satellite_hostname} "/usr/bin/git --git-dir=#{hiera_path}/.git fetch --all 2>&1" 2>&1`
+    `/usr/bin/ssh #{satellite_hostname} "/usr/bin/git --git-dir=#{hiera_path}/.git reset --hard origin/master 2>&1" 2>&1`
+  end
+end
