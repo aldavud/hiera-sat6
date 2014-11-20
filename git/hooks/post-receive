@@ -28,7 +28,7 @@ $stdin.each_line do |line|
   oldrev, newrev, refname = line.split(' ')
   if refname == 'refs/heads/master'
     puts "Pushing new hiera config to Satellite #{satellite_hostname}"
-    `/usr/bin/ssh #{satellite_hostname} "/usr/bin/git --git-dir=#{hiera_path}/.git fetch --all 2>&1" 2>&1`
-    `/usr/bin/ssh #{satellite_hostname} "/usr/bin/git --git-dir=#{hiera_path}/.git reset --hard origin/master 2>&1" 2>&1`
+    `/usr/bin/ssh #{satellite_hostname} "cd #{hiera_path} && /usr/bin/git --git-dir=#{hiera_path}/.git fetch --all 2>&1" 2>&1`
+    `/usr/bin/ssh #{satellite_hostname} "cd #{hiera_path} && /usr/bin/git --git-dir=#{hiera_path}/.git reset --hard origin/master 2>&1" 2>&1`
   end
 end

@@ -1,0 +1,3 @@
+[hooks "env"]
+        satellite = faa.redhat.com
+        hierapath = /var/lib/hiera
