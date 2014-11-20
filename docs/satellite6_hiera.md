@@ -9,7 +9,7 @@ When using Hiera via Puppet the default config file location for hiera is $confd
 Please note that in a scenario with multiple Puppet capsules, the Hiera configuration and hierarchy needs to be replicated across all Puppet capsules.
 
 Here is an example Hiera config for use with Satellite 6:
-~~~
+```
 ---
 :backends:
 - yaml
@@ -20,7 +20,7 @@ Here is an example Hiera config for use with Satellite 6:
 - common
 :yaml:
 :datadir: /var/lib/hiera
-~~~
+```
 
 This translates to the following file hierarchy being considered
 
